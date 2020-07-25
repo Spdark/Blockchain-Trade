@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if current_user.is_authenticated %}{{id}}{% else %}Home{% endif %}</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="custome.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style type="text/css">
+      .container{padding:30px;}
+    </style>
+
+    <script>
+      var someJavaScriptVar = '{{msg123}}';
+  if (someJavaScriptVar == 'True'){
+    alert("Documents are Uploaded")
+  }
+	
+        $("#myPdf").on("change", function(e){
+            var file = e.target.files[0]
+            if(file.type == "application/pdf"){
+                var fileReader = new FileReader();  
+                fileReader.onload = function() {
+                    var pdfData = new Uint8Array(this.result);
+                    // Using DocumentInitParameters object to load binary data.
+                    var loadingTask = pdfjsLib.getDocument({data: pdfData});
+                    loadingTask.promise.then(function(pdf) {
+                      console.log('PDF loaded');
+                      
+                      // Fetch the first page
+                      var pageNumber = 1;
+                      pdf.getPage(pageNumber).then(function(page) {
+                        console.log('Page loaded');
+                        
+                        var scale = 1.5;
+                        var viewport = page.getViewport({scale: scale});
+        
+                        // Prepare canvas using PDF page dimensions
+                        var canvas = $("#pdfViewer")[0];
+                        var context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+        
+                        // Render PDF page into canvas context
+                        var renderContext = {
+                          canvasContext: context,
+                          viewport: viewport
+                        };
+                        var renderTask = page.render(renderContext);
+                        renderTask.promise.then(function () {
+                          console.log('Page rendered');
+                        });
+                      });
+                    }, function (reason) {
+                      // PDF loading error
+                      console.error(reason);
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            }
+        });
+        
+        function showPdf()
+		{
+			if(this.files && this.files[0])
+			{
+				var obj = new FileReader();
+				obj.onload = function(data){
+					var pdf = document.getElementById("pdf");
+					pdf.src = data.target.result;
+					pdf.style.display = "block";
+				}
+				obj.readAsDataURL(this.files[0]);
+			}
+		}
+
+    function showexport(){
+$("#exporter" ).dialog();
+}
+
+function showimport(){
+$("#importer" ).dialog();
+}
+
+        function change1(){
+            var a = document.getElementById("doc").innerHTML;
+            var b = document.getElementById("box1").innerHTML;
+            document.getElementById("d1").innerHTML=document.getElementById("it2").innerHTML;
+            document.getElementById("d2").innerHTML=document.getElementById("it3").innerHTML;
+            document.getElementById("d3").innerHTML=document.getElementById("it4").innerHTML;
+            document.getElementById("t1").innerHTML="Exporter Bank";
+            document.getElementById("t2").innerHTML="Pending";    
+        };
+
+        function change2(){
+            var a = document.getElementById("doc").innerHTML;
+            var b = document.getElementById("box2").innerHTML;
+            document.getElementById("d1").innerHTML=document.getElementById("it5").innerHTML;
+            document.getElementById("d2").innerHTML=document.getElementById("it6").innerHTML;
+            document.getElementById("d3").innerHTML=document.getElementById("it7").innerHTML;
+            document.getElementById("t1").innerHTML="Custome Authority";
+            document.getElementById("t2").innerHTML="Pending";
+        };
+
+        function change3(){
+            var a = document.getElementById("doc").innerHTML;
+            var b = document.getElementById("box3").innerHTML;
+            document.getElementById("d1").innerHTML=document.getElementById("it8").innerHTML;
+            document.getElementById("d2").innerHTML=document.getElementById("it9").innerHTML;
+            document.getElementById("d3").innerHTML=document.getElementById("it10").innerHTML;
+            document.getElementById("t1").innerHTML="Custome Authority";
+            document.getElementById("t2").innerHTML="Pending";
+        };
+
+        function change4(){
+            var a = document.getElementById("doc").innerHTML;
+            var b = document.getElementById("box4").innerHTML;
+            document.getElementById("d1").innerHTML=document.getElementById("it11").innerHTML;
+            document.getElementById("d2").innerHTML=document.getElementById("it12").innerHTML;
+            document.getElementById("d3").innerHTML=document.getElementById("it13").innerHTML;
+            document.getElementById("t1").innerHTML="Importer Bank";
+            document.getElementById("t2").innerHTML="Pending";
+            
+        };
+    </script>
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head>
+
+<body class = "container-fluid">
+    <!-- Top container -->
+    <div class="w3-bar w3-top w3-black w3-large" style="z-index:4;">
+        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey pt-30" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+        <span class="w3-bar-item w3-right">
+          <nav class="nav-menu d-none d-lg-block">
+            <a class="active" href="#">{{current_user.fname}}</a>
+            <a href="/logout">Logout</a>
+          </nav>
+        </span>
+    </div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-top:40px;">
+      <!-- Header -->
+        <header class="w3-container w3-teal"style="padding-top:15px">
+            <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+        </header>
+        
+      <div class="w3-row-padding w3-pale-blue" style="border-style: solid; border-color: black;">
+            <div class="w3-quarter w3-margin-top w3-margin-bottom" id="box1" onclick="change1()">
+              <div class="w3-container w3-white w3-padding-05" style="border-color:black; border-style: solid;">
+                <div class="row" id="it1"><p>Importer</p><hr></div>
+                <div class="row" id="it2"><p>List of request</p></div>
+                <div class="row" id="it3"><p>Commercial Invoice</p></div>
+                <div class="row" id="it4"><p>Exporter License</p><hr></div>
+                <div class="row" ><input type="submit" onclick="showimport()" value="Upload"></div>
+                <br>
+              </div>
+            </div>
+
+            <div id="exporter" title="Submit Documents" style="display:none;">
+              <form autocomplete="off" action = "/exporter" method="POST", enctype="multipart/form-data">
+                <fieldset>
+                  <input type="text" name="exporterTradeId" placeholder="Confirm Trade Id">
+                  <br>
+                  <br>
+                  <input type="file" name ="inputfile" onchange="showPdf.call(this)">
+                  <br>
+                  <br>
+                  <input type="submit"  value="Submit">
+                </fieldset>
+              </form>
+              </div>
+
+              <div id="importer" title="Submit Documents" style="display:none;">
+                <form autocomplete="off" action = "/importer" method="POST", enctype="multipart/form-data">
+                  <fieldset>
+                    <input type="text" name="importerTradeId" placeholder="Confirm Trade Id">
+                    <br>
+                    <br>
+                    <input type="file" name ="inputfile1" onchange="showPdf.call(this)">
+                    <br>
+                    <br>
+                    <input type="file" name ="inputfile2" onchange="showPdf.call(this)">
+                    <br>
+                    <br>
+                    <input type="file" name ="inputfile3" onchange="showPdf.call(this)">
+                    <br>
+                    <br>
+                    <input type="submit"  value="Submit">
+                  </fieldset>
+                </form>
+                </div>
+
+            <div class="w3-quarter w3-margin-top w3-margin-bottom" id="box2" onclick="change2()">
+              <div class="w3-container w3-white w3-padding-05 " style="border-color:black; border-style: solid;">
+                <div class="row"><p>Initiate Shipment</p><hr></div>
+                <div class="row" id="it5"><p>Packing List</p></div>
+                <div class="row" id="it6"><p>Profoma Invoice</p></div>
+                <div class="row" id="it7"><p>Shipping Bill</p><hr></div>
+              </div>
+            </div>
+
+            <div class="w3-quarter w3-margin-top w3-margin-bottom " id="box3" onclick="change3()">
+                <div class="w3-container w3-white w3-padding-05 " style="border-color:black; border-style: solid;">
+                  <div class="row"><p>Shipment Delivary</p><hr></div>
+                  <div class="row" id="it8"><p>Purches bill</p></div>
+                  <div class="row" id="it9"><p>Shipping bill</p></div>
+                  <div class="row" id="it10"><p>""</p><hr></div>
+                </div>
+              </div>
+
+              <div class="w3-quarter w3-margin-top w3-margin-bottom " id="box4" onclick="change4()">
+                <div class="w3-container w3-white w3-padding-05 " style="border-color:black; border-style: solid;">
+                  <div class="row"><p>Exporter</p><hr></div>
+                  <div class="row" id="it11"><p>Bill of landing</p></div>
+                  <div class="row" id="it12"><p>""</p></div>
+                  <div class="row" id="it13"><p>""</p><hr></div>
+                  <div class="row"><input type="submit" onclick="showexport()" value="Upload"></div>
+                  <br>
+                </div>
+              </div>
+        </div> 
+
+        <div class="w3-container-fluid" style="height: 500px;" id="doc">
+            <div class="w3-row-padding" style="margin:0 -8px;" >
+              <div class="w3-col m3 l3">
+                <h3>Document List</h3>
+                <div class="list-group w3-light-grey w3-padding-05 w3-margin-top w3-margin-bottom ">
+                    <div class="w3-container w3-light-grey w3-padding-05" id="field">
+                      <div class="row" id="d1"><p>""</p> <br></div>
+                        <div class="row" id="d2"><p>""</p></div>
+                        <div class="row" id="d3"><p>""</p></div>
+                      </div>
+                  </div> 
+              </div>
+              <div class="w3-col m9 l9 w3-padding-05" style="height: 500px;">
+                <div class="w3-col m7 l7 w3-dark-grey w3-margin-top" style="height: 470px;border-style: solid; border-color: black;">
+                  
+                  <div class="container">
+                    
+                    <embed src="" type="application/pdf" id="pdf" width="100%" height="400px"></embed>
+                  </div>
+                </div>
+                <div class="w3-col m2 l2 w3-margin-top" style="align-content: center;">
+                  <table class="w3-table-all w3-large w3-borderd" style="margin-left: 40px; width: 400px;margin-top: 50px;">
+                      <tr>
+                        <th>Authority</th>
+                        <th>Status</th>
+                      </tr>
+                      <tr>
+                        <td id="t1">""</td>
+                        <td id="t2">""</td>
+                      </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
+        <footer class="w3-container w3-teal">
+          <h5>Footer</h5>
+          <p>Footer information goes here</p>
+        </footer>
+    </div>
+</body>
+</html>

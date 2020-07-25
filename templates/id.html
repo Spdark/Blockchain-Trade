@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% if current_user.is_authenticated %}{{current_user.fname }}{% else %}Home{% endif %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+body {
+  font-family: Arial;
+  color: white;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.left {
+  left: 0;
+  background-color: #6699CC;
+}
+
+.right {
+  right: 0;
+  background-color: #6699FF;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}
+
+
+
+
+.button {
+  background-color: blue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size:50px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  margin-left: 4%;
+  margin-right: 4%;
+  width: 400px;
+  height: 200px;
+}
+
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+</style>
+<script>
+      function create(){
+$("#create" ).dialog();
+}
+function join(){
+$("#join" ).dialog();
+}
+
+  var someJavaScriptVar = '{{msg}}';
+  if (someJavaScriptVar == 'True'){
+    alert("Please Check your Email your trade Id and password has been Mailed. Enter that Trade Id and Password By click on the Join Trade Button")
+  }else if(someJavaScriptVar == 'False'){
+    alert("Incorrect Email and Password")
+  }
+
+</script>
+</head>
+<body>
+
+<div class="split left">
+  <div class="centered">
+      <button class="button button2" onclick='create()' >Create Trade</button>
+  </div>
+</div>
+
+<div class="split right">
+  <div class="centered">
+    <button onclick='join()' class="button button2">Join Trade</button>
+  </div>
+</div>
+
+
+<div id="create" title="Create new Trade" style="display:none;">
+<form autocomplete="off" method="POST" action="/create">
+  <fieldset>
+    <input type="text" name="emailcreate" placeholder="Email">
+    <br>
+    <br>
+    <input type="password" name="passcreate" placeholder="Password">
+    <br>
+    <br>
+    <input type="submit"  value="Submit">
+  </fieldset>
+</form>
+</div>
+
+<div id="join" title="Join to an Existing Trade" style="display:none;">
+<form autocomplete="off" method="POST" action="/join">
+  <fieldset>
+    <input type="text" name="tradeid" placeholder="Trade ID">
+    <br>
+    <br>
+    <input type="password" name="pas" placeholder="Password">
+    <br>
+    <br>
+    <input type="submit"  value="Submit">
+    <br>
+    <br>
+    <h2>{{msg1}}</h2>
+  </fieldset>
+</form>
+</div>
+     
+</body>
+</html> 
